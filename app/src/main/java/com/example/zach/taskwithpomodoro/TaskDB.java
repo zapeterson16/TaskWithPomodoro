@@ -94,7 +94,7 @@ public class TaskDB {
         return rowID;
     }
 
-    public int updateMovie(Task task){
+    public int updateTask(Task task){
         ContentValues cv = new ContentValues();
         cv.put(TASK_ID, task.getId());
         cv.put(TITLE, task.getTitle());
@@ -149,11 +149,11 @@ public class TaskDB {
         }
         else{
             try{
-                Task task = new Task(
+
+                return new Task(
                         cursor.getString(TITLE_COL),
                         cursor.getInt(TASK_ID_COL),
-                        cursor.getInt(NUMPOMODOROS_COL));
-                return task;
+                        cursor.getInt(NUMPOMODOROS_COL));;
             }
             catch(Exception e){
                 return null;

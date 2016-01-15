@@ -1,12 +1,15 @@
 package com.example.zach.taskwithpomodoro;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,13 +18,19 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class TaskListActivity extends AppCompatActivity {
     TaskDB db;
     ListView listView;
+    public static Timer timer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_task_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -35,9 +44,10 @@ public class TaskListActivity extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(),CreateTaskActivity.class);
                 startActivity(i);
 
+
             }
         });
-
+        timer = new Timer();
         db = ShareData.get(this).getTaskDB();
 
         listView = (ListView) findViewById(R.id.taskListView);
@@ -53,14 +63,17 @@ public class TaskListActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(getApplicationContext(),TimerActivity.class));
+                Intent i = new Intent(getApplicationContext(),TimerActivity.class);
+                i.putExtra("TASK_ID", id);
+                startActivity(i);
             }
+
         });
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-               db.deleteTask(id);
+                db.deleteTask(id);
                 reAssignDB();
                 return true;
             }
@@ -79,6 +92,11 @@ public class TaskListActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        reAssignDB();
+    }
 
 
     @Override
@@ -108,4 +126,9 @@ public class TaskListActivity extends AppCompatActivity {
         super.onPostResume();
         reAssignDB();
     }
+
+
+
+
+
 }
