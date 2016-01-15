@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -136,8 +137,12 @@ public class TimerActivity extends AppCompatActivity {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this,0,i,0);
         Calendar time = Calendar.getInstance();
         time.setTimeInMillis(System.currentTimeMillis());
-        time.add(Calendar.SECOND, 10);
+        time.add(Calendar.SECOND, 1500);
         alarmManager.set(AlarmManager.RTC_WAKEUP, time.getTimeInMillis(), pendingIntent);
+        TextView textViewTimer = (TextView) findViewById(R.id.timerTextView);
+        textViewTimer.setText("End time: " + time.getTime().getHours() + ":" + time.getTime().getMinutes());
+        Button startPomodoroButton = (Button) findViewById(R.id.startPomodoroButton);
+        startPomodoroButton.setActivated(false);
 
     }
 

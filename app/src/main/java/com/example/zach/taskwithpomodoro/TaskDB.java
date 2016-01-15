@@ -7,9 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-/**
- * Created by Zach on 1/6/2016.
- */
+
 public class TaskDB {
     public static final String DB_NAME = "task.db";
     public static final int    DB_VERSION = 1;
@@ -122,10 +120,10 @@ public class TaskDB {
 
     public Cursor getTasksAsCurso(){
         this.openReadableDB();
-        Cursor cursor = db.query(TASK_TABLE,null,
+
+        return db.query(TASK_TABLE,null,
                 null, null,
                 null, null, null);
-        return cursor;
     }
     public Task getTask(int id){
         String where = TASK_ID + "= ?";
@@ -153,7 +151,7 @@ public class TaskDB {
                 return new Task(
                         cursor.getString(TITLE_COL),
                         cursor.getInt(TASK_ID_COL),
-                        cursor.getInt(NUMPOMODOROS_COL));;
+                        cursor.getInt(NUMPOMODOROS_COL));
             }
             catch(Exception e){
                 return null;
