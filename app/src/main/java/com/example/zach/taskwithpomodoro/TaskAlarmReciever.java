@@ -19,8 +19,10 @@ public class TaskAlarmReciever extends BroadcastReceiver {
         v.vibrate(1000);
         Intent i = new Intent(context, PomodoroRecapActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.putExtra("TASK_ID",intent.getExtras().getLong("TASK_ID",0));
-        context.startActivity(i);
+        i.putExtra("TASK_ID", intent.getExtras().getLong("TASK_ID", 0));
+        //context.startActivity(i);
+        PomodoroEndNotification nm = new PomodoroEndNotification();
+        PomodoroEndNotification.notify(context, "You are done with your pomodoro", (int)intent.getExtras().getLong("TASK_ID",0));
 
     }
 }

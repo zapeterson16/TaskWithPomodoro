@@ -3,6 +3,7 @@ package com.example.zach.taskwithpomodoro;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,7 +17,8 @@ public class PomodoroRecapActivity extends AppCompatActivity{
         setContentView(R.layout.activity_pomodoro_recap);
         //Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         //v.vibrate(1000);
-       long id = getIntent().getLongExtra("TASK_ID",0);
+       long id = getIntent().getIntExtra("TASK_ID",0);
+        Log.i("****Zach****", String.valueOf(id));
         db = ShareData.get(this).getTaskDB();
         currentTask = db.getTask((int)id);
         if(currentTask.getNumPomodoros()!=0) {

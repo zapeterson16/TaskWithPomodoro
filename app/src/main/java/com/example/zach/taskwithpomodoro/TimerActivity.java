@@ -137,7 +137,7 @@ public class TimerActivity extends AppCompatActivity {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this,0,i,0);
         Calendar time = Calendar.getInstance();
         time.setTimeInMillis(System.currentTimeMillis());
-        time.add(Calendar.SECOND, 1500);
+        time.add(Calendar.SECOND, 10);
         alarmManager.set(AlarmManager.RTC_WAKEUP, time.getTimeInMillis(), pendingIntent);
         TextView textViewTimer = (TextView) findViewById(R.id.timerTextView);
         textViewTimer.setText("End time: " + time.getTime().getHours() + ":" + time.getTime().getMinutes());
