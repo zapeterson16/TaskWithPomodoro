@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.zach.taskwithpomodoro">
-    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -20,7 +21,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".CreateTaskActivity" />
-        <activity android:name=".TimerActivity"></activity>
+        <activity android:name=".TimerActivity" />
+
+        <receiver android:name=".TaskAlarmReciever" />
+
+        <activity android:name=".PomodoroRecapActivity" />
     </application>
 
 </manifest>
