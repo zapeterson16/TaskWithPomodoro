@@ -47,7 +47,7 @@ public class PomodoroEndNotification {
 
         // This image is used as the notification's large icon (thumbnail).
         // TODO: Remove this if your notification has no relevant thumbnail.
-        final Bitmap picture = BitmapFactory.decodeResource(res, R.drawable.example_picture);
+        final Bitmap picture = BitmapFactory.decodeResource(res, R.mipmap.ic_launcher);
         TaskDB db = ShareData.get(context).getTaskDB();
         Task task = db.getTask(number);
         Intent i = new Intent(context, PomodoroRecapActivity.class);
@@ -68,7 +68,7 @@ public class PomodoroEndNotification {
 
                         // Set required fields, including the small icon, the
                         // notification title, and text.
-                .setSmallIcon(R.drawable.ic_stat_pomodoro_end)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)
                 .setContentText(text)
 
