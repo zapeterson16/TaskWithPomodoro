@@ -66,9 +66,6 @@ public class TaskListActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                /*Intent i = new Intent(getApplicationContext(), TimerActivity.class);
-                i.putExtra("TASK_ID", id);
-                startActivity(i);*/
                 startTimer(id);
             }
 
@@ -166,9 +163,6 @@ public class TaskListActivity extends AppCompatActivity {
                     result = "done";
                     Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                     v.vibrate(1000);
-                    /*Intent i = new Intent(getApplicationContext(), PomodoroRecapActivity.class);
-
-                    startActivity(new Intent(getApplicationContext(),PomodoroRecapActivity.class));*/
                     SharedPreferences savedValues = getSharedPreferences("SavedValues", MODE_PRIVATE);
                     long id = savedValues.getLong("itemID", 0);
                     PomodoroEndNotification nm = new PomodoroEndNotification();

@@ -18,9 +18,6 @@ public class PomodoroRecapActivity extends AppCompatActivity{
         SharedPreferences savedValues = getSharedPreferences("SavedValues",MODE_PRIVATE);
         long id = savedValues.getLong("itemID", 0);
         setContentView(R.layout.activity_pomodoro_recap);
-        //Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        //v.vibrate(1000);
-        Log.i("****Zach****", String.valueOf(id));
         db = ShareData.get(this).getTaskDB();
         currentTask = db.getTask((int)id);
         if(currentTask.getNumPomodoros()!=0) {
