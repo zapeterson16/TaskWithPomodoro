@@ -21,9 +21,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".CreateTaskActivity" />
-        <activity android:name=".TimerActivity" />
-
-        <receiver android:name=".TaskAlarmReciever" />
 
         <activity android:name=".PomodoroRecapActivity" />
     </application>

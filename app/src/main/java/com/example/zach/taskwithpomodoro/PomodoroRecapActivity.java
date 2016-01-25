@@ -1,6 +1,7 @@
 package com.example.zach.taskwithpomodoro;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,11 +15,9 @@ public class PomodoroRecapActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences savedValues = getSharedPreferences("SavedValues",MODE_PRIVATE);
+        long id = savedValues.getLong("itemID", 0);
         setContentView(R.layout.activity_pomodoro_recap);
-        //Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        //v.vibrate(1000);
-       long id = getIntent().getIntExtra("TASK_ID",0);
-        Log.i("****Zach****", String.valueOf(id));
         db = ShareData.get(this).getTaskDB();
         currentTask = db.getTask((int)id);
         if(currentTask.getNumPomodoros()!=0) {
@@ -26,6 +25,8 @@ public class PomodoroRecapActivity extends AppCompatActivity{
         }
         db.updateTask(currentTask);
         drawScreen(currentTask);
+
+
 
 
     }
