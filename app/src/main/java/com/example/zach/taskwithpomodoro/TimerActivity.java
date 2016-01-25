@@ -4,22 +4,26 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Message;
 import android.os.Vibrator;
-import android.provider.AlarmClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.Handler.Callback;
+import android.os.Handler;
 
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
+
 public class TimerActivity extends AppCompatActivity {
     TextView textViewTimer;
+    Timer myTimer;
+    long StartTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +60,8 @@ public class TimerActivity extends AppCompatActivity {
                     result = "done";
                     Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                     v.vibrate(1000);
+                   // Intent i = new Intent(this, TaskAlarmReciever.class);
+                   // i.putExtra("TASK_ID", getApplication().getIntent().getLongExtra("TASK_ID", 0));
                     startActivity(new Intent(getApplicationContext(),TaskListActivity.class));
                     timer.cancel();
                     timer.purge();
@@ -78,11 +84,12 @@ public class TimerActivity extends AppCompatActivity {
         timer.schedule(task, 0, 1000);
 
     }
-    public void startAlarmChecker(){
+    public long checkAlarm(){
         AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         long milisLeft = alarmManager.getNextAlarmClock().getTriggerTime()-System.currentTimeMillis();
-        long minutesLeft = milisLeft/60000;
-        Toast.makeText(this, String.valueOf(minutesLeft), Toast.LENGTH_SHORT).show();
+        long secondsLeft = milisLeft/1000;
+        return secondsLeft;
+        //Toast.makeText(this, String.valueOf(secondsLeft), Toast.LENGTH_SHORT).show();
                 /*final long startMillis = System.currentTimeMillis();
         final long totalLength = 1500;
 
@@ -130,6 +137,22 @@ public class TimerActivity extends AppCompatActivity {
         timer.schedule(task, 0, 60000);*/
     }
 
+
+    final Handler h = new Handler(new Callback() {
+
+        @Override
+        public boolean handleMessage(Message msg) {
+            long millis = System.currentTimeMillis();
+            int seconds = (int) (millis / 1000);
+            int minutes = seconds / 60;
+            seconds     = seconds % 60;
+
+            textViewTimer.setText(String.format("%d:%02d", minutes, seconds));
+            return false;
+        }
+    });
+
+
     public void setAlarm(){
         AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent(this, TaskAlarmReciever.class);
@@ -139,6 +162,7 @@ public class TimerActivity extends AppCompatActivity {
         time.setTimeInMillis(System.currentTimeMillis());
         time.add(Calendar.SECOND, 10);
         alarmManager.set(AlarmManager.RTC_WAKEUP, time.getTimeInMillis(), pendingIntent);
+        //alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(time.getTimeInMillis(), pendingIntent), pendingIntent);
         TextView textViewTimer = (TextView) findViewById(R.id.timerTextView);
         textViewTimer.setText("End time: " + time.getTime().getHours() + ":" + time.getTime().getMinutes());
         Button startPomodoroButton = (Button) findViewById(R.id.startPomodoroButton);
@@ -149,10 +173,27 @@ public class TimerActivity extends AppCompatActivity {
 
 
     public void startPomodoro(View v){
+           /* try{
+                checkAlarm();
+            }
+            catch(Exception e){
+                setAlarm();
+                Button button = (Button) findViewById(R.id.startPomodoroButton);
+                button.setText("Check Alarm");
+            }
+        TextView textViewTimer = (TextView) findViewById(R.id.timerTextView);
+            textViewTimer.setText("Time left"+checkAlarm());*/
+        setAlarm();
+        //startTimer();
 
-            setAlarm();
+
+
 
 
     }
+
+
+
+
 
 }

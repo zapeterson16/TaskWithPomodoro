@@ -6,12 +6,15 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.nfc.Tag;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 /**
  * Helper class for showing and canceling pomodoro end
@@ -48,11 +51,14 @@ public class PomodoroEndNotification {
         // This image is used as the notification's large icon (thumbnail).
         // TODO: Remove this if your notification has no relevant thumbnail.
         final Bitmap picture = BitmapFactory.decodeResource(res, R.mipmap.ic_launcher);
+        SharedPreferences savedValues = context.getSharedPreferences("SavedValues", context.MODE_PRIVATE);
+        long id = savedValues.getLong("itemID", 0);
+        Log.i("zach","the int is" + id);
         TaskDB db = ShareData.get(context).getTaskDB();
-        Task task = db.getTask(number);
+        Task task = db.getTask((int)id);
         Intent i = new Intent(context, PomodoroRecapActivity.class);
 
-        i.putExtra("TASK_ID", number);
+        i.putExtra("TASK_ID", id);
 
 
 
