@@ -27,7 +27,9 @@ public class TaskListActivity extends AppCompatActivity {
     TaskDB db;
     ListView listView;
     TextView timerTextView;
-    public static Timer timer;
+
+
+    public Timer timer;
 
 
     @Override
@@ -134,7 +136,8 @@ public class TaskListActivity extends AppCompatActivity {
         final long startMillis = System.currentTimeMillis();
         final long totalLength = 10;
 
-        final Timer timer = new Timer();
+        timer.cancel();
+        timer = new Timer();
 
         SharedPreferences savedValues = getSharedPreferences("SavedValues", MODE_PRIVATE);
         savedValues.edit().putLong("itemID", itemID).commit();
