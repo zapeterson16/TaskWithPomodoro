@@ -134,7 +134,7 @@ public class TaskListActivity extends AppCompatActivity {
 
     public void startTimer(Long itemID){
         final long startMillis = System.currentTimeMillis();
-        final long totalLength = 10;
+        final long totalLength = 1500;
 
         timer.cancel();
         timer = new Timer();
