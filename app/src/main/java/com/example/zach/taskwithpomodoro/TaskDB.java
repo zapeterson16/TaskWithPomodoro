@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 
 public class TaskDB {
     public static final String DB_NAME = "task.db";
@@ -157,6 +159,21 @@ public class TaskDB {
                 return null;
             }
         }
+    }
+    public ArrayList<Task> getMovies() {
+        this.openReadableDB();
+        Cursor cursor = db.query(TASK_TABLE, null,
+                null, null,  // using null for where and whereArgs to get all of the movies
+                null, null, null);
+        ArrayList<Task> movies = new ArrayList<Task>();
+        while (cursor.moveToNext()) {
+            movies.add(getTaskFromCursor(cursor));
+        }
+        if (cursor != null)
+            cursor.close();
+        this.closeDB();
+
+        return movies;
     }
 
 }
