@@ -1,5 +1,6 @@
 package com.example.zach.taskwithpomodoro;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -90,6 +91,7 @@ public class TabbedMainActivity extends AppCompatActivity implements TaskFragmen
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                startActivity(new Intent(getApplicationContext(), CreateTaskActivity.class));
             }
         });
 
