@@ -166,7 +166,7 @@ public class TaskListActivity extends AppCompatActivity {
                     SharedPreferences savedValues = getSharedPreferences("SavedValues", MODE_PRIVATE);
                     long id = savedValues.getLong("itemID", 0);
                     PomodoroEndNotification nm = new PomodoroEndNotification();
-                    PomodoroEndNotification.notify(getApplicationContext(), "You are done with your pomodoro", (int)id);
+                    //PomodoroEndNotification.notify(getApplicationContext(), "You are done with your pomodoro", (int)id);
                     timer.cancel();
                     timer.purge();
 

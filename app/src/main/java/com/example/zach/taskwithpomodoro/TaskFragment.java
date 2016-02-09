@@ -115,11 +115,13 @@ public class TaskFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Task task = taskdb.getTask((int) id);
-                Log.i("Zach", task.getTitle());
-                taskdb.deleteTask(id);
+                //Log.i("Zach", task.getTitle());
+               // taskdb.deleteTask(id);
                 reassignDB();
+                mListener.onListFragmentInteraction(task);
             }
         });
+
         return view;
     }
 
@@ -133,6 +135,7 @@ public class TaskFragment extends Fragment {
                 new int[] {android.R.id.text1, android.R.id.text2}
         );
         recyclerView.setAdapter(adapter);
+
     }
 
     @Override

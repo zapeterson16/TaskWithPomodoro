@@ -48,7 +48,7 @@ public class PomodoroRecapActivity extends AppCompatActivity{
     }
 
     public void goHome(){
-        startActivity(new Intent(this, TaskListActivity.class));
+        startActivity(new Intent(this, TabbedMainActivity.class));
     }
 
     public void drawScreen(Task task){

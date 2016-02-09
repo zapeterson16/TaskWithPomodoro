@@ -1,5 +1,6 @@
 package com.example.zach.taskwithpomodoro;
 
+import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -23,7 +24,9 @@ import android.widget.Toast;
 
 import com.example.zach.taskwithpomodoro.dummy.DummyContent;
 
-public class TabbedMainActivity extends AppCompatActivity implements TaskFragment.OnListFragmentInteractionListener {
+import java.util.Timer;
+
+public class TabbedMainActivity extends AppCompatActivity implements TaskFragment.OnListFragmentInteractionListener, TimerFragment.OnFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -39,10 +42,28 @@ public class TabbedMainActivity extends AppCompatActivity implements TaskFragmen
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    TimerFragment timerFragment;
 
     public void onListFragmentInteraction(Task task){
-        Toast.makeText(this,task.getTitle(), Toast.LENGTH_SHORT);
-        Log.i("Zach", task.getTitle());
+        Toast.makeText(this, task.getTitle(), Toast.LENGTH_SHORT);
+        //timerFragment.startTimer((long) task.getId());
+       // timerFragment = TimerFragment.newInstance("potato3","Potato3");
+       //timerFragment = (TimerFragment) getSupportFragmentManager().getFragments().get(1);
+        //timerFragment = (TimerFragment) getSupportFragmentManager().findFragmentByTag("timerFragmentTag");
+        timerFragment.startTimer((long)task.getId());
+       /* timerFragment.logOut("test log out");
+        FragmentManager fragMan = getSupportFragmentManager();
+        Log.i("Zach before", timerFragment.toString());
+        timerFragment = (TimerFragment) fragMan.findFragmentByTag("timerFragmentTag");
+        timerFragment.startTimer((long)task.getId());
+        Log.i("Zach after", timerFragment.toString());
+        Log.i("zach", "test 8:58");
+        Log.i("Zach", task.getTitle());*/
+
+    }
+
+    public void onFragmentInteraction(Uri uri){
+
     }
 
     @Override
@@ -149,6 +170,16 @@ public class TabbedMainActivity extends AppCompatActivity implements TaskFragmen
 
             if(position ==1){
                 return TaskFragment.newInstance(1);
+            }
+            else if(position == 0){
+
+                if (timerFragment == null){
+                    timerFragment = TimerFragment.newInstance("patoto","potato2");
+                }
+
+               //Log.i("zach", timerFragment.getTag() );
+                //timerFragment.logOut("test from getItem");
+                return timerFragment;
             }
             return PlaceholderFragment.newInstance(position + 1);
         }
