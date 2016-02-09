@@ -69,38 +69,6 @@ public class TaskFragment extends Fragment {
 
         taskdb = ShareData.get(view.getContext()).getTaskDB();
         recyclerView = (ListView) view;
-        // Set the adapter
-        /*if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            ListView recyclerView = (ListView) view;
-            if (mColumnCount <= 1) {
-
-                Cursor cursor = taskdb.getTasksAsCurso();
-                SimpleCursorAdapter adapter = new SimpleCursorAdapter(
-                        context,
-                        android.R.layout.simple_list_item_2,
-                        cursor,
-                        new String[] {TaskDB.TITLE, TaskDB.NUMPOMODOROS},
-                        new int[] {android.R.id.text1, android.R.id.text2}
-                );
-                recyclerView.setAdapter(adapter);
-
-            } else {
-
-                Cursor cursor = taskdb.getTasksAsCurso();
-                SimpleCursorAdapter adapter = new SimpleCursorAdapter(
-                        context,
-                        android.R.layout.simple_list_item_2,
-                        cursor,
-                        new String[] {TaskDB.TITLE, TaskDB.NUMPOMODOROS},
-                        new int[] {android.R.id.text1, android.R.id.text2}
-                );
-                recyclerView.setAdapter(adapter);
-            }
-
-            //recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(taskdb.getMovies(), mListener));
-
-        }*/
 
         Cursor cursor = taskdb.getTasksAsCurso();
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(
@@ -115,10 +83,18 @@ public class TaskFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Task task = taskdb.getTask((int) id);
-                //Log.i("Zach", task.getTitle());
-               // taskdb.deleteTask(id);
+
                 reassignDB();
                 mListener.onListFragmentInteraction(task);
+            }
+        });
+        recyclerView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                taskdb.deleteTask(id);
+                reassignDB();
+                return false;
             }
         });
 
@@ -155,18 +131,8 @@ public class TaskFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
+
         void onListFragmentInteraction(Task item);
     }
 }

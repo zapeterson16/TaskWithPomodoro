@@ -39,7 +39,7 @@ public class TimerFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     public TimerFragment() {
-        // Required empty public constructor
+
     }
 
     /**
@@ -73,22 +73,17 @@ public class TimerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         view = inflater.inflate(R.layout.fragment_timer, container, false);
         timerDisplayTextView = (TextView) view.findViewById(R.id.timerDisplayTextView);
         timerDisplayTextView.setText("test");
-        //startTimer((long) 3);
+
 
 
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+
 
     @Override
     public void onAttach(Context context) {
@@ -113,7 +108,7 @@ public class TimerFragment extends Fragment {
 
     public void startTimer(final Long itemID){
         final long startMillis = System.currentTimeMillis();
-        final long totalLength = 10;
+        final long totalLength = 1500;
        // Log.i("TimerFragmentStartTimer", itemID.toString());
 
         final Timer timer = new Timer();
@@ -122,8 +117,6 @@ public class TimerFragment extends Fragment {
         savedValues.edit().putLong("itemID", itemID).commit();
 
 
-        Log.i("zach", "id from tasklistACtivity is" + itemID);
-        Log.i("zach", "value back from saved values" + savedValues.getLong("itemID", 0));
 
 
 
@@ -175,16 +168,7 @@ public class TimerFragment extends Fragment {
 
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

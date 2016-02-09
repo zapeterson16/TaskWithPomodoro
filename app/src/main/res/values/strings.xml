@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TaskWithPomodoro</string>
+    <string name="app_name">Pumpkindoro</string>
     <string name="action_settings">Settings</string>
 
     <string name="pomodoro_end_notification_title_template">Pomodoro end: %1$s</string>

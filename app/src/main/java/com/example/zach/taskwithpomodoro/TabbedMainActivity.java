@@ -46,20 +46,10 @@ public class TabbedMainActivity extends AppCompatActivity implements TaskFragmen
     TimerFragment timerFragment;
 
     public void onListFragmentInteraction(Task task){
-        Toast.makeText(this, task.getTitle(), Toast.LENGTH_SHORT);
-        //timerFragment.startTimer((long) task.getId());
-       // timerFragment = TimerFragment.newInstance("potato3","Potato3");
-       //timerFragment = (TimerFragment) getSupportFragmentManager().getFragments().get(1);
-        //timerFragment = (TimerFragment) getSupportFragmentManager().findFragmentByTag("timerFragmentTag");
+        Toast.makeText(this,"Pumkindoro started for " + task.getTitle(), Toast.LENGTH_SHORT).show();
+
         timerFragment.startTimer((long)task.getId());
-       /* timerFragment.logOut("test log out");
-        FragmentManager fragMan = getSupportFragmentManager();
-        Log.i("Zach before", timerFragment.toString());
-        timerFragment = (TimerFragment) fragMan.findFragmentByTag("timerFragmentTag");
-        timerFragment.startTimer((long)task.getId());
-        Log.i("Zach after", timerFragment.toString());
-        Log.i("zach", "test 8:58");
-        Log.i("Zach", task.getTitle());*/
+
 
     }
 
@@ -74,8 +64,7 @@ public class TabbedMainActivity extends AppCompatActivity implements TaskFragmen
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
+
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
@@ -196,11 +185,11 @@ public class TabbedMainActivity extends AppCompatActivity implements TaskFragmen
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "SECTION 1";
+                    return "Timer";
                 case 1:
-                    return "SECTION 2";
+                    return "Tasks";
                 case 2:
-                    return "SECTION 3";
+                    return "Stats";
             }
             return null;
         }
