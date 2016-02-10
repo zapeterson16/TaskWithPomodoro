@@ -49,6 +49,7 @@ public class TabbedMainActivity extends AppCompatActivity implements TaskFragmen
         Toast.makeText(this,"Pumkindoro started for " + task.getTitle(), Toast.LENGTH_SHORT).show();
 
         timerFragment.startTimer((long)task.getId());
+        mViewPager.setCurrentItem(0, true);
 
 
     }
