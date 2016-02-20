@@ -23,12 +23,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.zach.taskwithpomodoro.dummy.DummyContent;
-
-import java.util.Timer;
-
 public class TabbedMainActivity extends AppCompatActivity implements TaskFragment.OnListFragmentInteractionListener, TimerFragment.OnFragmentInteractionListener {
-
+   public static final String SHARED_PREFERENCES = "sharedPreferences";
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -37,6 +33,22 @@ public class TabbedMainActivity extends AppCompatActivity implements TaskFragmen
      * may be best to switch to a
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
+
+    public void taskFinished(View v){
+        Log.i("TabbedMainActivity", "taskFinished has been called");
+        /*TextView textView = (TextView) v.findViewById(R.id.timerDisplayTextView);
+        textView.setText("potato");*/
+        timerFragment.finishTask(true);
+    }
+    public void continueTask(View v){
+        timerFragment.finishTask(false);
+    }
+    public void addPomodoro(View v){
+        timerFragment.addPomodoro();
+    }
+    public void notifyListChange(){
+        taskFragment.reassignDB();
+    }
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
     /**
@@ -44,11 +56,14 @@ public class TabbedMainActivity extends AppCompatActivity implements TaskFragmen
      */
     private ViewPager mViewPager;
     TimerFragment timerFragment;
+    TaskFragment taskFragment;
+
 
     public void onListFragmentInteraction(Task task){
         Toast.makeText(this,"Pumkindoro started for " + task.getTitle(), Toast.LENGTH_SHORT).show();
 
         timerFragment.startTimer((long)task.getId());
+        mViewPager.setCurrentItem(0, true);
 
 
     }
@@ -160,13 +175,12 @@ public class TabbedMainActivity extends AppCompatActivity implements TaskFragmen
             // Return a PlaceholderFragment (defined as a static inner class below).
 
             if(position ==1){
-                return TaskFragment.newInstance(1);
+                taskFragment = ShareData.get(getApplicationContext()).getTaskFragment();
+                return taskFragment;
             }
             else if(position == 0){
 
-                if (timerFragment == null){
-                    timerFragment = TimerFragment.newInstance("patoto","potato2");
-                }
+                timerFragment = ShareData.get(getApplicationContext()).getTimerFragment();
 
                //Log.i("zach", timerFragment.getTag() );
                 //timerFragment.logOut("test from getItem");
