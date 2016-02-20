@@ -53,17 +53,25 @@ public class PomodoroEndNotification {
         final Bitmap picture = BitmapFactory.decodeResource(res, R.mipmap.ic_launcher);
         SharedPreferences savedValues = context.getSharedPreferences("SavedValues", context.MODE_PRIVATE);
         long id = savedValues.getLong("itemID", 0);
-        Log.i("zach","the int is" + id);
+        Log.i("zach","the int is" + number);
         TaskDB db = ShareData.get(context).getTaskDB();
         Task task = db.getTask((int)id);
         Intent i = new Intent(context, PomodoroRecapActivity.class);
 
         i.putExtra("TASK_ID", id);
 
+       //TaskDB taskdb = ShareData.get(context).getTaskDB();
+        //Task task = ShareData.get(context).getTaskDB().getTask((int)id);
+       // Task task = taskdb.getTask(number);
+        Log.i("id from pomodoro notification", " " +id);
+        //if( taskdb.getTask((int)id) == null){
+         //   Log.i("zach", "You suck");
+       // }
 
 
         final String ticker = exampleString;
         final String title = "Pomodoro done";
+        Log.i("zach", task.getTitle());
         final String text = "You finished " + task.getTitle();
 
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
