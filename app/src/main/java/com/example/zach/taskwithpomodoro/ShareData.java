@@ -12,6 +12,9 @@ public class ShareData {
 
     private TaskDB db;
 
+    private TimerFragment timerFragment;
+    private TaskFragment taskFragment;
+
     private Context context;
     // declare other variables here, or change value to a reference to a Model object
 
@@ -25,6 +28,20 @@ public class ShareData {
             sData = new ShareData(c.getApplicationContext());
         }
         return sData;
+    }
+
+    public TimerFragment getTimerFragment(){
+        if(timerFragment == null){
+            timerFragment = TimerFragment.newInstance("test","test");
+        }
+        return timerFragment;
+    }
+
+    public TaskFragment getTaskFragment(){
+        if(taskFragment == null){
+            taskFragment = taskFragment.newInstance(1);
+        }
+        return taskFragment;
     }
 
 

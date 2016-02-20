@@ -9,11 +9,72 @@
     <!-- TODO: Update blank fragment layout -->
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Swipe right to start a PumkinDoro"
+        android:id="@+id/titleTextView"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:paddingTop="10dp" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="timerDisplay"
+        android:text="test"
         android:id="@+id/timerDisplayTextView"
         android:layout_gravity="center_horizontal"
-        android:textSize="100dp" />
+        android:textSize="100dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Did you finish this task?"
+        android:id="@+id/taskTitleTextView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Pomodoros left: 1"
+        android:id="@+id/numPomodorosTextView"
+        android:layout_marginTop="33dp"
+        android:layout_below="@+id/numPomodorosTextView"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yes"
+            android:id="@+id/taskFinishedButton"
+            android:layout_weight="1"
+            android:onClick="taskFinished" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No"
+            android:id="@+id/taskNotFinishedButton"
+            android:layout_weight="1"
+            android:onClick="continueTask" />
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Pomodoro"
+        android:id="@+id/addPomodoroButton"
+        android:layout_gravity="center_horizontal"
+        android:onClick="addPomodoro" />
+
 </LinearLayout>

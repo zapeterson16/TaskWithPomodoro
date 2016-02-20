@@ -1,6 +1,7 @@
 package com.example.zach.taskwithpomodoro;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,6 +32,11 @@ public class TimerFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     TextView timerDisplayTextView;
     View view;
+    TaskDB taskdb;
+    Task currentTask;
+    Timer timer;
+    TextView titleTextView;
+    SharedPreferences sharedPreferences;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -58,6 +64,7 @@ public class TimerFragment extends Fragment {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
 
+
         return fragment;
     }
 
@@ -68,6 +75,9 @@ public class TimerFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        sharedPreferences = getActivity().getSharedPreferences(TabbedMainActivity.SHARED_PREFERENCES, 0);
+        timer = new Timer();
+
     }
 
     @Override
@@ -76,7 +86,12 @@ public class TimerFragment extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_timer, container, false);
         timerDisplayTextView = (TextView) view.findViewById(R.id.timerDisplayTextView);
-        timerDisplayTextView.setText("test");
+        //timerDisplayTextView.setText("test");
+        titleTextView = (TextView) view.findViewById(R.id.titleTextView);
+        if(sharedPreferences.getBoolean("taskInProgress", false)){
+            titleTextView.setText(sharedPreferences.getString("currentTaskTitle", "failed from timerfragment on create view"));
+        }
+        taskdb = ShareData.get(getContext()).getTaskDB();
 
 
 
@@ -101,17 +116,34 @@ public class TimerFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        Log.i("onSaveInstanceState", "the bundle contents" +outState.describeContents());
+        super.onSaveInstanceState(outState);
+    }
+
     public void logOut(String s){
         Log.i("Zach", s);
         timerDisplayTextView.setText("potato");
     }
 
+
     public void startTimer(final Long itemID){
         final long startMillis = System.currentTimeMillis();
         final long totalLength = 1500;
+        currentTask = taskdb.getTask((int) (long) itemID);
+        timer.cancel();
+        timer.purge();
+        timer = new Timer();
+        titleTextView.setText(currentTask.getTitle());
+
+        sharedPreferences.edit().putString("currentTaskTitle", currentTask.getTitle()).commit();
+        sharedPreferences.edit().putBoolean("taskInProgress", true).commit();
+
        // Log.i("TimerFragmentStartTimer", itemID.toString());
 
-        final Timer timer = new Timer();
+
 
         SharedPreferences savedValues = getActivity().getSharedPreferences("SavedValues", getActivity().MODE_PRIVATE);
         savedValues.edit().putLong("itemID", itemID).commit();
@@ -169,8 +201,39 @@ public class TimerFragment extends Fragment {
     }
 
 
+    public void finishTask(boolean deleteTask){
+        if(currentTask!= null && deleteTask){
+            taskdb.deleteTask((long) currentTask.getId());
+        }
+        else if(currentTask!=null && currentTask.getNumPomodoros()>1){
+            currentTask.setNumPomodoros(currentTask.getNumPomodoros()-1);
+            taskdb.updateTask(currentTask);
+        }
+        timer.cancel();
+        timer.purge();
+        timerDisplayTextView.setText("00:00");
+        mListener.notifyListChange();
+        titleTextView.setText("Swipe right to start a PumpkinDoro");
+        sharedPreferences.edit().putString("currentTaskTitle", "no Pomodoro in progress from TimerFragment finishtask()").commit();
+        sharedPreferences.edit().putBoolean("taskInProgress", false).commit();
+
+    }
+
+    public void addPomodoro(){
+        if(currentTask!=null){
+            currentTask.setNumPomodoros(currentTask.getNumPomodoros()+1);
+            taskdb.updateTask(currentTask);
+        }
+
+    }
+
+
+
+
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+        void notifyListChange();
     }
 }
