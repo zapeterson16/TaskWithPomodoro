@@ -98,6 +98,8 @@ public class TaskFragment extends Fragment {
             }
         });
 
+        reassignDB();
+
         return view;
     }
 

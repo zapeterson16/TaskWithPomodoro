@@ -95,12 +95,19 @@ public class TabbedMainActivity extends AppCompatActivity implements TaskFragmen
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                startActivity(new Intent(getApplicationContext(), CreateTaskActivity.class));
+                startActivityForResult(new Intent(getApplicationContext(), CreateTaskActivity.class), 0);
             }
         });
 
+
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        taskFragment.reassignDB();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -155,6 +162,7 @@ public class TabbedMainActivity extends AppCompatActivity implements TaskFragmen
             View rootView = inflater.inflate(R.layout.fragment_tabbed_main, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+
             return rootView;
         }
     }
