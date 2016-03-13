@@ -24,7 +24,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class TabbedMainActivity extends AppCompatActivity implements TaskFragment.OnListFragmentInteractionListener, TimerFragment.OnFragmentInteractionListener {
-   public static final String SHARED_PREFERENCES = "sharedPreferences";
+    public static final String SHARED_PREFERENCES = "sharedPreferences";
+    public static final String TASK_IN_PROGRESS_BOOL = "taskinprogress";
+    public static final String TASK_IN_PROGRESS_TITLE = "currenttasktitle";
+    public static final String TASK_IN_PROGRESS_ID = "currenttaskid";
+    public static final String DESIRED_ACTION = "desiredaction";
+    public static final String DESIRED_ACTION_FINISHED = "fininshtask";
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -74,6 +79,7 @@ public class TabbedMainActivity extends AppCompatActivity implements TaskFragmen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tabbed_main);
 
@@ -98,6 +104,24 @@ public class TabbedMainActivity extends AppCompatActivity implements TaskFragmen
                 startActivityForResult(new Intent(getApplicationContext(), CreateTaskActivity.class), 0);
             }
         });
+        try {
+            Log.i("Zach", "try statement ran");
+            Intent i = this.getIntent();
+            String desiredAction = this.getIntent().getStringExtra(TabbedMainActivity.DESIRED_ACTION);
+            Log.i("Zach", desiredAction);
+            if (desiredAction.equals(TabbedMainActivity.DESIRED_ACTION_FINISHED)) {
+                timerFragment.finishTask(true);
+                Log.i("zach", "signal sent");
+            }
+            Log.i("zach",String.valueOf(desiredAction.equals(TabbedMainActivity.DESIRED_ACTION_FINISHED)));
+
+        }
+        catch(Exception e){
+
+        }
+
+
+
 
 
     }
@@ -183,15 +207,17 @@ public class TabbedMainActivity extends AppCompatActivity implements TaskFragmen
             // Return a PlaceholderFragment (defined as a static inner class below).
 
             if(position ==1){
-                taskFragment = ShareData.get(getApplicationContext()).getTaskFragment();
+                //taskFragment = ShareData.get(getApplicationContext()).getTaskFragment();
+                taskFragment = TaskFragment.newInstance(1);
                 return taskFragment;
             }
             else if(position == 0){
 
-                timerFragment = ShareData.get(getApplicationContext()).getTimerFragment();
+                //timerFragment = ShareData.get(getApplicationContext()).getTimerFragment();
 
                //Log.i("zach", timerFragment.getTag() );
                 //timerFragment.logOut("test from getItem");
+                timerFragment = TimerFragment.newInstance("test", "test");
                 return timerFragment;
             }
             return PlaceholderFragment.newInstance(position + 1);

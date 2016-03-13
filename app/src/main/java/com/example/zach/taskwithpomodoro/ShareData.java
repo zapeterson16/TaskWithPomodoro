@@ -12,14 +12,16 @@ public class ShareData {
 
     private TaskDB db;
 
-    private TimerFragment timerFragment;
-    private TaskFragment taskFragment;
+    private static TimerFragment timerFragment;
+    private static TaskFragment taskFragment;
 
     private Context context;
     // declare other variables here, or change value to a reference to a Model object
 
     private ShareData(Context c) {
         db = new TaskDB(c);
+        timerFragment = TimerFragment.newInstance("test","test");
+        taskFragment = TaskFragment.newInstance(1);
     }
 
     public static ShareData get(Context c) {
@@ -43,6 +45,8 @@ public class ShareData {
         }
         return taskFragment;
     }
+
+    
 
 
 

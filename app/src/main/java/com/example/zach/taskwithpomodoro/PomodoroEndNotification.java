@@ -56,14 +56,17 @@ public class PomodoroEndNotification {
         Log.i("zach","the int is" + number);
         TaskDB db = ShareData.get(context).getTaskDB();
         Task task = db.getTask((int)id);
-        Intent i = new Intent(context, PomodoroRecapActivity.class);
+        Intent i = new Intent(context, TabbedMainActivity.class);
 
         i.putExtra("TASK_ID", id);
+
+        Intent finishTaskIntent = new Intent(context, TabbedMainActivity.class);
+        finishTaskIntent.putExtra(TabbedMainActivity.DESIRED_ACTION, TabbedMainActivity.DESIRED_ACTION_FINISHED);
 
        //TaskDB taskdb = ShareData.get(context).getTaskDB();
         //Task task = ShareData.get(context).getTaskDB().getTask((int)id);
        // Task task = taskdb.getTask(number);
-        Log.i("id from pomodoro notification", " " +id);
+        Log.i("id from pomodoro notification", " " + id);
         //if( taskdb.getTask((int)id) == null){
          //   Log.i("zach", "You suck");
        // }
@@ -73,6 +76,7 @@ public class PomodoroEndNotification {
         final String title = "Pomodoro done";
         Log.i("zach", task.getTitle());
         final String text = "You finished " + task.getTitle();
+
 
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
 
@@ -134,19 +138,23 @@ public class PomodoroEndNotification {
                         // content intent provides access to the same actions in
                         // another way.
                 .addAction(
-                        R.drawable.ic_action_stat_share,
-                        res.getString(R.string.action_share),
+                        R.mipmap.ic_launcher,
+                        "finished",
                         PendingIntent.getActivity(
                                 context,
                                 0,
-                                Intent.createChooser(new Intent(Intent.ACTION_SEND)
-                                        .setType("text/plain")
-                                        .putExtra(Intent.EXTRA_TEXT, "Dummy text"), "Dummy title"),
+                                finishTaskIntent,
                                 PendingIntent.FLAG_UPDATE_CURRENT))
                 .addAction(
                         R.drawable.ic_action_stat_reply,
-                        res.getString(R.string.action_reply),
-                        null)
+                        "Add Pumkindoro",
+                        PendingIntent.getActivity(
+                                context,
+                                0,
+                                new Intent(context, TabbedMainActivity.class),
+                                PendingIntent.FLAG_UPDATE_CURRENT
+
+                        ))
 
                         // Automatically dismiss the notification when it is touched.
                 .setAutoCancel(true);
