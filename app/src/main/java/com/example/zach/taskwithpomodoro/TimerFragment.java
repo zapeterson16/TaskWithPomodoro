@@ -88,13 +88,18 @@ public class TimerFragment extends Fragment {
         timerDisplayTextView = (TextView) view.findViewById(R.id.timerDisplayTextView);
         //timerDisplayTextView.setText("test");
         titleTextView = (TextView) view.findViewById(R.id.titleTextView);
-        if(sharedPreferences.getBoolean("taskInProgress", false)){
-            titleTextView.setText(sharedPreferences.getString("currentTaskTitle", "failed from timerfragment on create view"));
+
+        if(sharedPreferences.getBoolean(TabbedMainActivity.TASK_IN_PROGRESS_BOOL, false)){
+            titleTextView.setText(sharedPreferences.getString(TabbedMainActivity.TASK_IN_PROGRESS_TITLE, "failed from timerfragment on create view"));
+            timerDisplayTextView.setText("0:00");
+        }
+        else{
+            timerDisplayTextView.setText("0:00");
         }
         taskdb = ShareData.get(getContext()).getTaskDB();
-
-
-
+        if(sharedPreferences.getBoolean(TabbedMainActivity.TASK_IN_PROGRESS_BOOL, false)){
+            currentTask = taskdb.getTask((int) sharedPreferences.getLong(TabbedMainActivity.TASK_IN_PROGRESS_ID, (long) 0));
+        }
         return view;
     }
 
@@ -131,15 +136,16 @@ public class TimerFragment extends Fragment {
 
     public void startTimer(final Long itemID){
         final long startMillis = System.currentTimeMillis();
-        final long totalLength = 1500;
+        final long totalLength = 10;
         currentTask = taskdb.getTask((int) (long) itemID);
         timer.cancel();
         timer.purge();
         timer = new Timer();
         titleTextView.setText(currentTask.getTitle());
 
-        sharedPreferences.edit().putString("currentTaskTitle", currentTask.getTitle()).commit();
-        sharedPreferences.edit().putBoolean("taskInProgress", true).commit();
+        sharedPreferences.edit().putString(TabbedMainActivity.TASK_IN_PROGRESS_TITLE, currentTask.getTitle()).commit();
+        sharedPreferences.edit().putBoolean(TabbedMainActivity.TASK_IN_PROGRESS_BOOL, true).commit();
+        sharedPreferences.edit().putLong(TabbedMainActivity.TASK_IN_PROGRESS_ID, (long) currentTask.getId()).commit();
 
        // Log.i("TimerFragmentStartTimer", itemID.toString());
 
@@ -167,17 +173,17 @@ public class TimerFragment extends Fragment {
                         result = String.valueOf(timeLeft / 60) + ":" + String.valueOf(timeLeft % 60);
                     }
                 } else {
-                    result = "done";
+                    result = "0:00";
                     Vibrator v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
                     v.vibrate(1000);
-                    SharedPreferences savedValues = getActivity().getSharedPreferences("SavedValues", getActivity().MODE_PRIVATE);
+                    SharedPreferences savedValues = getActivity().getSharedPreferences(TabbedMainActivity.SHARED_PREFERENCES, getActivity().MODE_PRIVATE);
                     long id = savedValues.getLong("itemID", 0);
                     TaskDB taskdb = ShareData.get(view.getContext()).getTaskDB();
                     Task tempTask = taskdb.getTask((int) id);
                     PomodoroEndNotification nm = new PomodoroEndNotification();
                     //Log.i("fromTimerFragment", " *****************************" + tempTask.getNumPomodoros());
-
-                    PomodoroEndNotification.notify(getActivity().getApplicationContext(), "You are done with your pomodoro",(int) id);
+                    //savedValues.edit().putBoolean(TabbedMainActivity.TASK_IN_PROGRESS_BOOL, false).commit();
+                    PomodoroEndNotification.notify(getActivity().getApplicationContext(), "You are done with your pomodoro", (int) id);
                     timer.cancel();
                     timer.purge();
 
@@ -211,11 +217,11 @@ public class TimerFragment extends Fragment {
         }
         timer.cancel();
         timer.purge();
-        timerDisplayTextView.setText("00:00");
+        timerDisplayTextView.setText("0:00");
         mListener.notifyListChange();
         titleTextView.setText("Swipe right to start a PumpkinDoro");
-        sharedPreferences.edit().putString("currentTaskTitle", "no Pomodoro in progress from TimerFragment finishtask()").commit();
-        sharedPreferences.edit().putBoolean("taskInProgress", false).commit();
+        sharedPreferences.edit().putString(TabbedMainActivity.TASK_IN_PROGRESS_TITLE, "no Pomodoro in progress from TimerFragment finishtask()").commit();
+        sharedPreferences.edit().putBoolean(TabbedMainActivity.TASK_IN_PROGRESS_BOOL, false).commit();
 
     }
 

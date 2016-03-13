@@ -28,9 +28,10 @@ public class CreateTaskActivity extends AppCompatActivity {
             db.insertTaskAutoId(new Task(taskTitle.getText().toString(), 0, Integer.parseInt(taskNumPomodoros.getText().toString())));
 
 
-            startActivity(new Intent(getApplicationContext(), TabbedMainActivity.class));
+            //startActivity(new Intent(getApplicationContext(), TabbedMainActivity.class));
 
 
         }
+        finish();
     }
 }
